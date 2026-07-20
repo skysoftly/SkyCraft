@@ -1,10 +1,10 @@
 ﻿using Avalonia;
 using System;
-using SkyCraft.Installer.Helpers;
+using SkyCraft.Launcher.Helpers;
 using SkyCraft.Shared;
 using SkyCraft.Shared.Helpers;
 
-namespace SkyCraft.Installer;
+namespace SkyCraft.Launcher;
 
 sealed class Program
 {
@@ -15,7 +15,8 @@ sealed class Program
     public static void Main(string[] args)
     {
         AppInitializer.Initialize(PathHelper.GetLogsRoot());
-
+        
+        
         try
         {
             BuildAvaloniaApp()
@@ -30,7 +31,6 @@ sealed class Program
         {
             Logger.Info("Closed");
         }
-        
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.

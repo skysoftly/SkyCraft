@@ -1,0 +1,28 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SkyCraft.Launcher.ViewModels.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyCraft.Launcher.Views.Controls.TitleBarView"
+             x:DataType="vm:TitleBarViewModel"
+             PointerPressed="TitleBar_PointerPressed"
+             Background="Transparent">
+    
+    <Border>
+        <Grid ColumnDefinitions="Auto * Auto Auto">
+            <TextBlock Text="SkyCraft"/>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" 
+                        IsVisible="{Binding ShowUserPanel}" >
+                <TextBlock Text="{Binding Nickname}"/>
+                <Button Content="Выход" Command="{Binding LogoutCommand}"/>
+            </StackPanel>
+        
+            <StackPanel Grid.Column="3" Orientation="Horizontal" >
+                <Button Content="-" Click="Minimize_Click" />
+                <Button Content="х" Click="Close_Click" />
+            
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

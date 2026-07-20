@@ -1,0 +1,17 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SkyCraft.Launcher.ViewModels.Page"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyCraft.Launcher.Views.Page.LoginPageView"
+             x:DataType="vm:LoginPageViewModel">
+   <Border>
+       <Grid RowDefinitions="Auto Auto Auto Auto Auto" Width="200">
+           <TextBlock Text="АВТОРИЗАЦИЯ" HorizontalAlignment="Center" />
+           <TextBox Grid.Row="1" Text="{Binding Nickname}" PlaceholderText="Никнейм" HorizontalAlignment="Stretch"/>
+           <TextBlock Grid.Row="2" Text="{Binding Error}" />
+           <Button Grid.Row="3" Content="ВОЙТИ" Command="{Binding LoginCommand}" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+       </Grid>
+   </Border>
+</UserControl>

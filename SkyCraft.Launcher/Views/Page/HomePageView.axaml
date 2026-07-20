@@ -1,0 +1,36 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SkyCraft.Launcher.ViewModels.Page"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyCraft.Launcher.Views.Page.HomePageView"
+             x:DataType="vm:HomePageViewModel">
+    <Grid ColumnDefinitions="300 *">
+        <ListBox
+            ItemsSource="{Binding Builds}"
+            SelectedItem="{Binding SelectedBuild}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+
+                    <Grid ColumnDefinitions="*,Auto,Auto">
+
+                        <StackPanel>
+
+                            <TextBlock Text="{Binding Build.Info.Name}" />
+
+                            <TextBlock Text="{Binding Build.Minecraft.Version}" />
+
+                        </StackPanel>
+
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="{Binding Online}" />
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ContentControl Grid.Column="1" Content="{Binding SelectedBuild}"/>
+    </Grid>
+</UserControl>

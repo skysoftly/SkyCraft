@@ -6,10 +6,10 @@ using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
-using SkyCraft.Installer.ViewModels;
-using SkyCraft.Installer.Views;
+using SkyCraft.Launcher.ViewModels;
+using SkyCraft.Launcher.Views;
 
-namespace SkyCraft.Installer;
+namespace SkyCraft.Launcher;
 
 public partial class App : Application
 {
@@ -23,22 +23,17 @@ public partial class App : Application
     public override async void OnFrameworkInitializationCompleted()
     {
         Services = ServiceProvider.Build();
-        
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var vm = Services.GetRequiredService<MainWindowViewModel>();
-            
-            var mainWindow = new MainWindow
+
+            desktop.MainWindow = new MainWindow
             {
                 DataContext = vm
             };
-            
-            desktop.MainWindow = mainWindow;
 
-            if (await vm.InitializeAsync())
-            {
-                mainWindow.Close();
-            }
+            await vm.InitializeAsync();
         }
 
         base.OnFrameworkInitializationCompleted();

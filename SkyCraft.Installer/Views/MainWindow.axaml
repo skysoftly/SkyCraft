@@ -7,14 +7,16 @@
         x:Class="SkyCraft.Installer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="SkyCraft.Installer">
+        Title="SkyCraft">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel>
+        <TextBlock Text="{Binding Progress.Status}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding Progress.Progress}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Progress.DownloadedBytes}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBlock Text="/" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Progress.TotalBytes}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </StackPanel>
+    </StackPanel>
 
 </Window>

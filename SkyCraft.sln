@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyCraft.Installer", "SkyCraft.Installer\SkyCraft.Installer.csproj", "{B0CF32DB-9A48-4122-8ABB-9BBD4D47A4DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyCraft.Shared", "SkyCraft.Shared\SkyCraft.Shared.csproj", "{767E940F-FD91-4081-B7FC-E0B3B5EDB7C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyCraft.Launcher", "SkyCraft.Launcher\SkyCraft.Launcher.csproj", "{163E8427-680B-4275-8BEE-FE03929193CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{B0CF32DB-9A48-4122-8ABB-9BBD4D47A4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0CF32DB-9A48-4122-8ABB-9BBD4D47A4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0CF32DB-9A48-4122-8ABB-9BBD4D47A4DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{767E940F-FD91-4081-B7FC-E0B3B5EDB7C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{767E940F-FD91-4081-B7FC-E0B3B5EDB7C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{767E940F-FD91-4081-B7FC-E0B3B5EDB7C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{767E940F-FD91-4081-B7FC-E0B3B5EDB7C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{163E8427-680B-4275-8BEE-FE03929193CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{163E8427-680B-4275-8BEE-FE03929193CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{163E8427-680B-4275-8BEE-FE03929193CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{163E8427-680B-4275-8BEE-FE03929193CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
