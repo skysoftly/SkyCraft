@@ -10,12 +10,6 @@ public class MinecraftModel
     [JsonPropertyName("loader")]
     public required string Loader { get; init; }
 
-    [JsonPropertyName("loaderVersion")]
+    [JsonPropertyName("loaderVersion")] 
     public required string LoaderVersion { get; init; }
-
-    [JsonPropertyName("javaVersion")]
-    public required int JavaVersion { get; init; }
-
-    [JsonPropertyName("recommendedRamMb")]
-    public required int RecommendedRamMb { get; init; }
 }

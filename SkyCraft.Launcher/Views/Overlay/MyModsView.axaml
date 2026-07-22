@@ -1,0 +1,116 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:SkyCraft.Launcher.Converters"
+             xmlns:animated="clr-namespace:Avalonia.Xaml.Interactions.Animated;assembly=Avalonia.Xaml.Interactions.Animated"
+             xmlns:overlay="clr-namespace:SkyCraft.Launcher.ViewModels.Overlay"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyCraft.Launcher.Views.Overlay.MyModsView"
+             x:DataType="overlay:MyModsViewModel"
+             x:Name="Root">
+
+    <Grid>
+        <Button Classes="BackgroundBtn" Command="{Binding CloseCommand}" />
+        <Border Classes="Window BorderScale" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10"
+                Width="400" Height="550"
+                RenderTransformOrigin="50% 50%"
+                RenderTransform="{Binding Transform}">
+            <Grid RowDefinitions="Auto Auto * Auto" RowSpacing="10">
+                <Grid>
+                    <TextBlock Text="Мои моды" Classes="TitleOverlay" HorizontalAlignment="Left" />
+    
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+    
+                        <StackPanel Orientation="Horizontal" Spacing="5" Margin="10">
+    
+                            <TextBlock Text="Модов:" Classes="TileCaption" />
+                            <TextBlock Text="{Binding ModsCount}" Classes="TileCaption" />
+                        </StackPanel>
+                        <Button Command="{Binding CloseCommand}"
+                                Classes="Icon Transparent">
+                            <Svg Path="/Assets/Icons/close.svg"
+                                 Height="22"
+                                 Width="22"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Hidden">
+                    <Interaction.Behaviors>
+                        <animated:VerticalScrollViewerAnimatedBehavior />
+                    </Interaction.Behaviors>
+                    <!-- Ваш контент -->
+                    <StackPanel Spacing="10">
+    
+                        <TextBlock Text="Сторонние моды могут вызвать ошибки и проблемы с сервером" Classes="BadgeDesc"
+                                   VerticalAlignment="Center" />
+                        <ItemsControl
+                            ItemsSource="{Binding MyMods}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top">
+    
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" Spacing="4" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+    
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Classes="TileLight" Padding="10 5" Margin="10 0 20 5"
+                                            HorizontalAlignment="Stretch"
+                                            Width="350">
+    
+                                        <Grid ColumnDefinitions="* Auto" ColumnSpacing="5">
+    
+                                            <Grid RowDefinitions="Auto Auto" RowSpacing="5">
+                                                <CheckBox Classes="CheckBoxPrimary" IsChecked="{Binding IsEnabled}">
+    
+                                                    <TextBlock Text="{Binding Name}" Classes="Name"
+                                                               VerticalAlignment="Center" />
+                                                </CheckBox>
+    
+                                                <TextBlock Grid.Row="1" Text="{Binding Path, Converter={x:Static converters:PathToFileNameConverter.Instance}}" Classes="BadgeDesc"
+                                                           VerticalAlignment="Center" />
+                                            </Grid>
+    
+                                            <Button Grid.Column="1" VerticalAlignment="Top"
+                                                    Command="{Binding $parent[UserControl].((overlay:MyModsViewModel)DataContext).RemoveModCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Classes="Primary"
+                                                    Padding="5">
+                                                <Svg Path="/Assets/Icons/trash.svg"
+                                                     Height="22"
+                                                     Width="22"/>
+                                            </Button>
+                                        </Grid>
+    
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+    
+                <Grid Grid.Row="3" ColumnDefinitions="* Auto" ColumnSpacing="10">
+                    
+                    <Button Grid.Column="0" Content="Сохранить"
+                            Command="{Binding SaveCommand}"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Classes="Primary" HorizontalAlignment="Stretch" Height="50" />
+                    <Button Grid.Column="1"
+                            Command="{Binding AddModCommand}"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Classes="Primary" HorizontalAlignment="Stretch" Height="50" Width="50" >
+                        <Svg Path="/Assets/Icons/plus.svg"
+                             Height="25"
+                             Width="25"/>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

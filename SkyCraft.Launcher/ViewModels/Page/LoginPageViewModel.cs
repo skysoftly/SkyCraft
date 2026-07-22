@@ -19,7 +19,6 @@ public partial class LoginPageViewModel : PageViewModelBase
     [ObservableProperty] private string _nickname = string.Empty;
     [ObservableProperty] private string _error = string.Empty;
 
-
     public LoginPageViewModel(SettingsService settings, NavigationService navigation)
     {
         _settings = settings;
@@ -27,16 +26,40 @@ public partial class LoginPageViewModel : PageViewModelBase
         
     }
 
+    [ObservableProperty] private bool _canLogin;
+
+    partial void OnNicknameChanged(string value)
+    {
+        Error = string.Empty;
+        
+
+        if (Nickname.Length < 3)
+        {
+            Error = "Минимальная длинна 3";
+            CanLogin = false;
+            return;
+        }
+        if (!NicknameHelper.IsValid(Nickname))
+        {
+            Error = "Используйте только A-Z, 0-9 и _";
+            CanLogin = false;
+            return;
+        }
+
+        CanLogin = true;
+    }
+
 
     [RelayCommand]
     private async Task LoginAsync()
     {
+        if (!CanLogin) return;
+        
         Error = string.Empty;
 
         if (!NicknameHelper.IsValid(Nickname))
         {
             Logger.Info("Invalid Nickname");
-            Error = "Используйте только A-Z, 0-9 и _";
             return;
         }
 

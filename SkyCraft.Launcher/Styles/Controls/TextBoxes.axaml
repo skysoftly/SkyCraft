@@ -1,0 +1,49 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Стили полей ввода -->
+    
+    <Style Selector="TextBox.PrimaryTextBox">
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ClipToBounds" Value="False" />
+
+        <Style Selector="^ DataValidationErrors">
+            <Setter Property="ClipToBounds" Value="False" />
+        </Style>
+
+        <Style Selector="^ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{StaticResource ColorTextMuted}" />
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+
+        <Style Selector="^ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{StaticResource ColorBgInput}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ColorBorderInput}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Effect" Value="{StaticResource EffectDefault}" />
+            
+            <Setter Property="Transitions">
+                <Setter.Value>
+                    <Transitions>
+                        <BrushTransition Property="BorderBrush" Duration="0.2" />
+                        <EffectTransition Property="Effect" Duration="0:0:0.2"/>
+                    </Transitions>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pointerover TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{StaticResource ColorTextMuted}" />
+        </Style>
+
+        <Style Selector="^:focus-within Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{StaticResource ColorPrimary}" />
+            <Setter Property="Effect" Value="{StaticResource EffectFocused}" />
+        </Style>
+
+        <Style Selector="^:focus-within TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{StaticResource ColorTextMuted}" />
+        </Style>
+    </Style>
+</Styles>

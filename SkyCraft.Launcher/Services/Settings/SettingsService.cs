@@ -18,7 +18,7 @@ public class SettingsService
     
     public async Task LoadAsync()
     {
-        Directory.CreateDirectory(PathHelper.GetAppDataRoot());
+        Directory.CreateDirectory(PathHelper.GetHideRoot());
 
         if (!File.Exists(PathHelper.GetSettingsPath()))
         {
@@ -56,7 +56,7 @@ public class SettingsService
 
     public async Task SaveAsync()
     {
-        Directory.CreateDirectory(PathHelper.GetAppDataRoot());
+        Directory.CreateDirectory(PathHelper.GetHideRoot());
 
         await using var stream = File.Create(PathHelper.GetSettingsPath());
 
@@ -74,7 +74,10 @@ public class SettingsService
         return new SettingsModel
         {
             Nickname = string.Empty,
-            InstallDirectory = PathHelper.GetDefaultInstallDirectory()
+            InstallDirectory = PathHelper.GetDefaultInstallDirectory(),
+            Ram = 4096,
+            HideOnPlay = false,
+            SelectedBuild = string.Empty
         };
     }
 }

@@ -2,14 +2,125 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:SkyCraft.Launcher.Converters"
              xmlns:vm="using:SkyCraft.Launcher.ViewModels.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SkyCraft.Launcher.Views.Controls.BuildCardView"
-             x:DataType="vm:BuildCardViewModel">
-    <Grid>
-        <StackPanel>
-        <TextBlock Text="{Binding Build.Info.Name}"/>
-            <Button Command="{Binding PlayCommand}"/>
-        </StackPanel>
+             x:DataType="vm:BuildCardViewModel"
+             ClipToBounds="False">
+    <!-- <Grid> -->
+    <!--     <StackPanel> -->
+    <!--     <TextBlock Text="{Binding Build.Info.Name}"/> -->
+    <!--         <Button Command="{Binding PlayCommand}"/> -->
+    <!--     </StackPanel> -->
+    <!-- </Grid> -->
+    <!-- -->
+    
+    <Grid RowDefinitions="200 Auto * 140" RowSpacing="10">
+
+        <Grid Grid.Row="0">
+            <Border Classes="Banner ImageCorner"
+                    HorizontalAlignment="Right"
+                    Width="500">
+                <Image Source="{Binding Banner}"
+                       Stretch="UniformToFill">
+                </Image>
+            </Border>
+            <StackPanel Spacing="10">
+                <TextBlock Classes="BadgeName" Text="{Binding Build.Info.Name}" />
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <Border Classes="Badge">
+                        <StackPanel Spacing="5" Orientation="Horizontal">
+                            <Svg Path="/Assets/Icons/cube.svg" Width="15" />
+                            <TextBlock Text="{Binding Build.Minecraft.Version}" Classes="BadgeText" />
+                        </StackPanel>
+                    </Border>
+                    <Border Classes="Badge">
+                        <StackPanel Spacing="5" Orientation="Horizontal">
+                            <Svg Path="/Assets/Icons/core.svg" Width="15" />
+                            <TextBlock Text="{Binding Build.Minecraft.Loader}" Classes="BadgeText" />
+                        </StackPanel>
+                    </Border>
+                    <Border Classes="Badge">
+                        <StackPanel Spacing="5" Orientation="Horizontal">
+                            <Svg Path="/Assets/Icons/arrowClock.svg" Width="15" />
+                            <StackPanel Orientation="Horizontal">
+
+                                <TextBlock Text="Последнее обновление: " Classes="BadgeText" />
+                                <TextBlock Text="{Binding Build.Info.UpdatedAt, Converter={x:Static converters:TimeToViewConverter.Instance}}" Classes="BadgeText" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <Grid Width="400" HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding Build.Info.Description}" Classes="BadgeDesc" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" ColumnDefinitions="Auto *">
+            <Button Classes="Primary"
+                    Command="{Binding PlayCommand}"
+                    Width="200"
+                    Height="60"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center">
+                <Grid>
+                    <TextBlock Text="Играть" Classes="Title" />
+                </Grid>
+            </Button>
+        </Grid>
+
+
+        <Border Classes="Tile" Grid.Row="3" Padding="10 10 10 1">
+            <Grid ClipToBounds="True" RowDefinitions="Auto *" RowSpacing="10">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Модификации" Classes="TileName" VerticalAlignment="Center" />
+                    <Button Classes="Primary"
+                            Width="60"
+                            HorizontalContentAlignment="Center"
+                            Command="{Binding ShowAllModsCommand}"
+                            Content="Все">
+                    </Button>
+                    <Button Classes="Primary"
+                            Width="60"
+                            HorizontalContentAlignment="Center"
+                            Command="{Binding ShowOptionalModsCommand}"
+                            Content="Доп">
+                    </Button>
+                    <Button Classes="Primary"
+                            Width="60"
+                            HorizontalContentAlignment="Center"
+                            Command="{Binding ShowMyModsCommand}"
+                            Content="Мои">
+                    </Button>
+                </StackPanel>
+        
+                <ItemsControl Grid.Row="1"
+                              ItemsSource="{Binding Build.Mods}"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Top"
+                              MaxHeight="74">
+        
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+        
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Classes="TileLight" Padding="10 5" Margin="3" Height="35">
+        
+                                <TextBlock Text="{Binding Name}" Classes="TileDesc" VerticalAlignment="Center"/>
+        
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

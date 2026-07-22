@@ -1,0 +1,82 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:animated="clr-namespace:Avalonia.Xaml.Interactions.Animated;assembly=Avalonia.Xaml.Interactions.Animated"
+             xmlns:overlay="clr-namespace:SkyCraft.Launcher.ViewModels.Overlay"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyCraft.Launcher.Views.Overlay.AllModsView"
+             x:DataType="overlay:AllModsViewModel">
+
+
+    <Grid>
+        <Button Classes="BackgroundBtn" Command="{Binding CloseCommand}" />
+        <Border Classes="Window BorderScale" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10"
+                Width="400" Height="550"
+                RenderTransformOrigin="50% 50%"
+                RenderTransform="{Binding Transform}">
+            <Grid RowDefinitions="Auto Auto *" RowSpacing="10">
+                <Grid>
+                    <TextBlock Text="Все моды" Classes="TitleOverlay" HorizontalAlignment="Left" />
+
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                        <StackPanel Orientation="Horizontal" Spacing="5" Margin="10">
+
+                            <TextBlock Text="Модов:" Classes="TileCaption" />
+                            <TextBlock Text="{Binding ModsCount}" Classes="TileCaption" />
+                        </StackPanel>
+                        <Button Command="{Binding CloseCommand}"
+                                Classes="Icon Transparent">
+                            <Svg Path="/Assets/Icons/close.svg"
+                                 Height="22"
+                                 Width="22"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Hidden">
+                    <Interaction.Behaviors>
+                        <animated:VerticalScrollViewerAnimatedBehavior />
+                    </Interaction.Behaviors>
+                    <!-- Ваш контент -->
+                    <StackPanel>
+                        <ItemsControl
+                            ItemsSource="{Binding DisplayMods}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top">
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" Spacing="4" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Classes="TileLight" Padding="10 5" Margin="10 0 20 5"
+                                            Height="48"
+                                            HorizontalAlignment="Stretch">
+
+                                        <Grid ColumnDefinitions="* Auto">
+                                            <TextBlock Text="{Binding Name}" Classes="TileDesc"
+                                                       VerticalAlignment="Center" />
+
+                                            <!-- <Border Grid.Column="1" Classes="TileLight" -->
+                                            <!--         IsVisible="{Binding Primary}" -->
+                                            <!--         Padding="10 5"> -->
+                                            <!--     <TextBlock Text="основной" Classes="TileDesc" -->
+                                            <!--                VerticalAlignment="Center" /> -->
+                                            <!-- </Border> -->
+                                        </Grid>
+
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

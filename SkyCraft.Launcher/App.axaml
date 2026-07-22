@@ -2,14 +2,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SkyCraft.Launcher.App"
              xmlns:local="using:SkyCraft.Launcher"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             xmlns:converters="clr-namespace:SkyCraft.Installer.Converters;assembly=SkyCraft.Installer"
+             RequestedThemeVariant="Dark">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
-  
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <converters:ProgressToPercentConverter x:Key="ProgressToPercentConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="Styles/Resources/Colors.axaml"/>
+                <ResourceInclude Source="Styles/Resources/Brushes.axaml"/>
+                <ResourceInclude Source="Styles/Resources/Effects.axaml"/>
+                <ResourceInclude Source="Styles/Resources/Icons.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+    
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="Styles/Base/Common.axaml"/>
+        <StyleInclude Source="Styles/Base/Typography.axaml"/>
+        <StyleInclude Source="Styles/Base/ScrollBars.axaml"/>
+        <StyleInclude Source="Styles/Base/Window.axaml"/>
+    
+        <!-- Подключение контролов -->
+        <StyleInclude Source="Styles/Controls/CheckBox.axaml"/>
+        <StyleInclude Source="Styles/Controls/Slider.axaml"/>
+        <StyleInclude Source="Styles/Controls/Image.axaml"/>
+        <StyleInclude Source="Styles/Controls/Buttons.axaml"/>
+        <StyleInclude Source="Styles/Controls/TextBoxes.axaml"/>
+        <StyleInclude Source="Styles/Controls/ListBox.axaml"/>
+        <StyleInclude Source="Styles/Controls/Badge.axaml"/>
+        <StyleInclude Source="Styles/Controls/Tile.axaml"/>
+        <StyleInclude Source="Styles/Controls/Header.axaml"/>
+        <StyleInclude Source="Styles/Controls/ItemsControl.axaml"/>
+        <StyleInclude Source="Styles/Controls/SrollViewer.axaml"/>
+    
+        <!-- Подключение страниц -->
+        <StyleInclude Source="Styles/Pages/Auth.axaml"/>
+        <StyleInclude Source="Styles/Pages/Home.axaml"/>
     </Application.Styles>
 </Application>

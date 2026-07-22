@@ -1,0 +1,13 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Глобальные настройки и общие стили -->
+    
+    <Style Selector="Button, TextBox, ListBoxItem">
+        <Setter Property="IsTabStop" Value="False"/>
+    </Style>
+
+    <Style Selector="Window">
+        <Setter Property="FontFamily" Value="Inter"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+</Styles>

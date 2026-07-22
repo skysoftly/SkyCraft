@@ -5,6 +5,7 @@ using SkyCraft.Launcher.Services;
 using SkyCraft.Launcher.Services.Navigation;
 using SkyCraft.Launcher.Services.Settings;
 using SkyCraft.Launcher.ViewModels.Base;
+using SkyCraft.Launcher.ViewModels.Overlay;
 using SkyCraft.Launcher.ViewModels.Page;
 
 namespace SkyCraft.Launcher.ViewModels.Controls;
@@ -33,6 +34,7 @@ public partial class TitleBarViewModel : ViewModelBase
         
         OnPropertyChanged(nameof(Nickname));
     }
+    
     [RelayCommand]
     private async Task LogoutAsync()
     {
@@ -41,5 +43,11 @@ public partial class TitleBarViewModel : ViewModelBase
         await _settings.SaveAsync();
         
         await _navigation.NavigateAsync<LoginPageViewModel>();
+    }
+    
+    [RelayCommand]
+    private async Task SettingsAsync()
+    {
+        await _navigation.ShowOverlayAsync<SettingsOverlayViewModel>();
     }
 }

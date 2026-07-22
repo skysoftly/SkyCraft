@@ -1,0 +1,42 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Стили окон и фонов -->
+
+    <Style Selector="Border.BorderOpacity">
+        <!-- <Setter Property="Background" Value="#80000000"/> -->
+        <Setter Property="Opacity" Value="0"/>
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="Border.BorderDarkGlass">
+        <Setter Property="Background" Value="#a0000000"/>
+        <Setter Property="Effect" Value="blur(10)"/>
+    </Style>
+
+    <Style Selector="Border.BorderScale">
+        <Setter Property="RenderTransform" Value="scale(0, 0)"/>
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" Easing="LinearEasing"/>
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="Border.Window">
+        <Setter Property="Background" Value="{StaticResource BrushWindowBg}" />
+        <Setter Property="BorderBrush" Value="#30965aff" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Effect" Value="{StaticResource EffectWindow}" />
+    </Style>
+
+    <Style Selector="Border.Background">
+        <Setter Property="Background" Value="{StaticResource BrushBackground}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="ClipToBounds" Value="True" />
+    </Style>
+</Styles>

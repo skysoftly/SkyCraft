@@ -3,8 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SkyCraft.Launcher.Models;
 using SkyCraft.Launcher.Services;
 using SkyCraft.Launcher.Services.Build;
-using SkyCraft.Launcher.Services.Install;
-using SkyCraft.Launcher.Services.Install.Instance;
+using SkyCraft.Launcher.Services.Minecraft;
 using SkyCraft.Launcher.Services.Navigation;
 using SkyCraft.Launcher.Services.Settings;
 using SkyCraft.Launcher.ViewModels;
@@ -27,17 +26,21 @@ public static class ServiceProvider
         
         services.AddSingleton<ManifestService>();
         services.AddSingleton<BuildService>();
-        services.AddSingleton<InstallService>();
-        services.AddSingleton<JavaService>();
-        services.AddSingleton<AssetsService>();
-        services.AddSingleton<LibrariesService>();
+        services.AddSingleton<MinecraftService>();
         services.AddSingleton<InstanceService>();
+        services.AddSingleton<ImageService>();
+
 
 
         services.AddTransient<LoginPageViewModel>();
         services.AddTransient<HomePageViewModel>();
         
-        services.AddSingleton<LoadingOverlayViewModel>();
+        services.AddTransient<LoadingOverlayViewModel>();
+        services.AddTransient<SettingsOverlayViewModel>();
+        services.AddTransient<MyModsViewModel>();
+        services.AddTransient<OptionalModsViewModel>();
+        services.AddTransient<AllModsViewModel>();
+        services.AddTransient<InitializeViewModel>();
         
         services.AddSingleton<TitleBarViewModel>();
         

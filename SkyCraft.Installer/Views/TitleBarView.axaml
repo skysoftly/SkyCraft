@@ -1,0 +1,38 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SkyCraft.Installer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyCraft.Installer.Views.TitleBarView"
+             x:DataType="vm:TitleBarViewModel"
+             PointerPressed="TitleBar_PointerPressed"
+             Background="Transparent">
+    
+    <Grid ColumnDefinitions="Auto * Auto" Margin="20 0" ColumnSpacing="8">
+        <StackPanel Orientation="Horizontal"
+                    Spacing="10">
+            
+            <Border Classes="LogoCloud">
+                <Svg Path="/Assets/Icons/cloud.svg"
+                     Width="28" Height="28"/>
+            </Border>
+            <TextBlock Text="SkyCraft"
+                       Classes="LogoText" />
+        </StackPanel>
+        
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+            <Button Click="Minimize_Click"
+                    Classes="Icon Transparent">
+                <Svg Path="/Assets/Icons/minimize.svg" CurrentColor="White"
+                     Width="22" Height="22"/>
+            </Button>
+            <Button Click="Close_Click"
+                    Classes="Icon Transparent">
+                <Svg Path="/Assets/Icons/close.svg" CurrentColor="White"
+                     Width="22" Height="22"/>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

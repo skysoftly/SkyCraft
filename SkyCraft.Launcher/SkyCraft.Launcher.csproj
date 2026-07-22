@@ -20,19 +20,34 @@
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1"/>
+        <PackageReference Include="CmlLib.Core" Version="4.0.6" />
+        <PackageReference Include="CmlLib.Core.Installer.Forge" Version="1.1.1" />
+        <PackageReference Include="CmlLib.Core.Installer.NeoForge" Version="4.0.1" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
+        <PackageReference Include="Egolds.Avalonia.Xaml.Interactions.Animated" Version="11.2.3" />
+        <PackageReference Include="Hardware.Info" Version="110.0.0.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0-preview.6.26359.118" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.10" />
         <PackageReference Include="Svg.Controls.Avalonia" Version="12.0.0.13" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SkyCraft.Installer\SkyCraft.Installer.csproj" />
       <ProjectReference Include="..\SkyCraft.Shared\SkyCraft.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\Launch\" />
-      <Folder Include="Services\Minecraft\" />
-      <Folder Include="Services\Network\" />
+      <Folder Include="Styles\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Overlay\SettingsOverlayView.axaml.cs">
+        <DependentUpon>SettingsOverlayView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Overlay\InitializeView.axaml.cs">
+        <DependentUpon>InitializeView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

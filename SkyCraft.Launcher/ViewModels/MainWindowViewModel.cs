@@ -7,6 +7,7 @@ using SkyCraft.Launcher.Services.Navigation;
 using SkyCraft.Launcher.Services.Settings;
 using SkyCraft.Launcher.ViewModels.Base;
 using SkyCraft.Launcher.ViewModels.Controls;
+using SkyCraft.Launcher.ViewModels.Overlay;
 using SkyCraft.Launcher.ViewModels.Page;
 using SkyCraft.Shared.Helpers;
 
@@ -25,6 +26,9 @@ public partial class MainWindowViewModel : ViewModelBase
     
     public TitleBarViewModel TitleBar { get; }
 
+    [ObservableProperty] private bool _overlayVisible;
+
+    [ObservableProperty] private bool _isLoading;
     public MainWindowViewModel(TitleBarViewModel titleBar, NavigationService navigation, SettingsService settings)
     {
         TitleBar = titleBar;
@@ -38,22 +42,29 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         CurrentPage = _navigation.CurrentPage;
         CurrentOverlay = _navigation.CurrentOverlay;
+
+        OverlayVisible = CurrentOverlay is not null;
     }
     
     public async Task InitializeAsync()
     {
         await _settings.LoadAsync();
 
+        
+        
         if (!NicknameHelper.IsValid(_settings.Settings.Nickname))
         {
             _settings.Settings.Nickname = string.Empty;
 
             await _settings.SaveAsync();
-
             await _navigation.NavigateAsync<LoginPageViewModel>();
             return;
         }
-
+        
+        await _navigation.ShowOverlayAsync<InitializeViewModel>();
+        
         await _navigation.NavigateAsync<HomePageViewModel>();
+        
+        await _navigation.CloseOverlayAsync();
     }
 }

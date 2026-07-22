@@ -3,13 +3,33 @@
              x:Class="SkyCraft.Installer.App"
              xmlns:local="using:SkyCraft.Installer"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
-  
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="Styles/Resources/Colors.axaml" />
+                <ResourceInclude Source="Styles/Resources/Brushes.axaml" />
+                <ResourceInclude Source="Styles/Resources/Effects.axaml" />
+                <ResourceInclude Source="Styles/Resources/Icons.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="Styles/Base/Common.axaml" />
+        <StyleInclude Source="Styles/Base/Typography.axaml" />
+        <StyleInclude Source="Styles/Base/Window.axaml" />
+
+        <!-- Подключение контролов -->
+        <StyleInclude Source="Styles/Controls/Badge.axaml" />
+        <StyleInclude Source="Styles/Controls/Buttons.axaml" />
+        <StyleInclude Source="Styles/Controls/Header.axaml" />
+
     </Application.Styles>
 </Application>

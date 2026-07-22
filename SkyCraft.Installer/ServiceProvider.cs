@@ -17,6 +17,8 @@ public static class ServiceProvider
         services.AddSingleton<ManifestService>();
         services.AddSingleton<DownloadService>();
         services.AddSingleton<LauncherService>();
+        
+        services.AddSingleton<TitleBarViewModel>();
 
         services.AddSingleton<MainWindowViewModel>();
 

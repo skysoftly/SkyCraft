@@ -12,10 +12,12 @@ public partial class MainWindowViewModel : ViewModelBase
     public ProgressModel Progress { get; } = new();
     
     private readonly StartupService _startupService;
+    public TitleBarViewModel TitleBar { get; }
  
-    public MainWindowViewModel(StartupService startupService)
+    public MainWindowViewModel(StartupService startupService, TitleBarViewModel titleBar)
     {
         _startupService = startupService;
+        TitleBar = titleBar;
     }
     
     public async Task<bool> InitializeAsync()

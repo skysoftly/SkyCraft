@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Тени для различных элементов -->
+    <DropShadowEffect x:Key="EffectEmpty"
+                      Color="Transparent"
+                      BlurRadius="20"
+                      OffsetX="0"
+                      OffsetY="0"
+                      Opacity="0"/>
+
+    <DropShadowEffect x:Key="EffectDefault"
+                      Color="{StaticResource ColorEffect}"
+                      BlurRadius="20"
+                      OffsetX="0"
+                      OffsetY="0"
+                      Opacity="0.2"/>
+    
+    <DropShadowEffect x:Key="EffectFocused"
+                      Color="{StaticResource ColorEffectLight}"
+                      BlurRadius="20"
+                      OffsetX="0"
+                      OffsetY="0"
+                      Opacity="1"/>
+    
+    <DropShadowEffect x:Key="EffectGlow"
+                      Color="#dbc2ff"
+                      BlurRadius="25"
+                      OffsetX="0"
+                      OffsetY="0"
+                      Opacity="1"/>
+    
+    <DropShadowEffect x:Key="EffectShadow"
+                      Color="{StaticResource ColorEffectShadow}"
+                      BlurRadius="20"
+                      OffsetX="0"
+                      OffsetY="0"
+                      Opacity="0.5"/>
+    
+    <DropShadowEffect x:Key="EffectButtonHover"
+                      Color="#8c823cff"
+                      BlurRadius="25"
+                      OffsetX="0"
+                      OffsetY="5"
+                      Opacity="1"/>
+    
+    <DropShadowEffect x:Key="EffectDanger"
+                      Color="#e83b3b"
+                      BlurRadius="25"
+                      OffsetX="0"
+                      OffsetY="0"
+                      Opacity="1"/>
+    
+    <DropShadowEffect x:Key="EffectWindow"
+                      Color="{StaticResource ColorEffect}"
+                      BlurRadius="50"
+                      OffsetX="0"
+                      OffsetY="0"
+                      Opacity="0.5"/>
+</ResourceDictionary>

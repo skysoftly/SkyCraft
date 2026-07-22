@@ -9,4 +9,7 @@ public class BuildAssetsModel
 
     [JsonPropertyName("banner")]
     public required string Banner { get; init; }
+
+    [JsonPropertyName("baseUrl")]
+    public required string BaseUrl { get; init; }
 }

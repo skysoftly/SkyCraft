@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Основные цвета -->
+    <Color x:Key="ColorPrimary">#974cff</Color>
+    <Color x:Key="ColorPrimaryDark">#2f2050</Color>
+    <Color x:Key="ColorPrimaryLight">#a05cff</Color>
+    
+    <Color x:Key="ColorBg">#1a0c36</Color>
+    <Color x:Key="ColorBgDark">#090511</Color>
+    <Color x:Key="ColorBgInput">#171027</Color>
+    
+    
+    <Color x:Key="ColorBgCard">#80170736</Color>
+    <Color x:Key="ColorBorderCard">#80381466</Color>
+    
+    <Color x:Key="ColorBorder">#462d67</Color>
+    <Color x:Key="ColorBorderInput">#35205b</Color>
+    
+    <Color x:Key="ColorBgTile">#120d21</Color>
+    <Color x:Key="ColorBorderTile">#241943</Color>
+    
+    <Color x:Key="ColorTextWhite">#FFFFFF</Color>
+    <Color x:Key="ColorTextLight">#e3e3e3</Color>
+    <Color x:Key="ColorTextGray">#c1b7cc</Color>
+    <Color x:Key="ColorTextGrayDark">#969696</Color>
+    <Color x:Key="ColorTextMuted">#695e7d</Color>
+    <Color x:Key="ColorTextAccent">#cabddb</Color>
+    
+    <Color x:Key="ColorEffect">#7832ff</Color>
+    <Color x:Key="ColorEffectLight">#974cff</Color>
+    <Color x:Key="ColorEffectShadow">#4d974cff</Color>
+</ResourceDictionary>

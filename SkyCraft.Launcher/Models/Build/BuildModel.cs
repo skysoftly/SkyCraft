@@ -19,4 +19,7 @@ public class BuildModel
 
     [JsonPropertyName("files")]
     public required BuildFilesModel Files { get; init; }
+    
+    [JsonPropertyName("mods")]
+    public required List<ModModel> Mods { get; init; }
 }

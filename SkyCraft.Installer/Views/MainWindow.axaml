@@ -3,20 +3,31 @@
         xmlns:vm="using:SkyCraft.Installer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:SkyCraft.Installer.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SkyCraft.Installer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="SkyCraft">
+        Icon="/Assets/icon.ico"
+        Title="SkyCraft"
+        WindowDecorations="None"
+        Width="300"
+        Height="130">
 
-    <StackPanel>
-        <TextBlock Text="{Binding Progress.Status}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <TextBlock Text="{Binding Progress.Progress}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Progress.DownloadedBytes}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBlock Text="/" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Progress.TotalBytes}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </StackPanel>
-    </StackPanel>
+    
+    <Border Classes="Background">
+        <Grid RowDefinitions="50 *">
+            <ContentControl Grid.Row="0" Content="{Binding TitleBar}"/>
+            <StackPanel Grid.Row="1" Margin="20 0" Spacing="5">
+                <TextBlock Text="{Binding Progress.Status}" Classes="Name" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Progress.Progress, Converter={x:Static converters:ProgressToPercentConverter.Instance}}" Classes="Desc"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <!-- <StackPanel Orientation="Horizontal"> -->
+                <!--     <TextBlock Text="{Binding Progress.DownloadedBytes}" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
+                <!--     <TextBlock Text="/" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
+                <!--     <TextBlock Text="{Binding Progress.TotalBytes}" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
+                <!-- </StackPanel> -->
+                <ProgressBar Value="{Binding Progress.Progress}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 
 </Window>

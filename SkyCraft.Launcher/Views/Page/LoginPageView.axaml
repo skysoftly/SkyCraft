@@ -6,12 +6,44 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SkyCraft.Launcher.Views.Page.LoginPageView"
              x:DataType="vm:LoginPageViewModel">
-   <Border>
-       <Grid RowDefinitions="Auto Auto Auto Auto Auto" Width="200">
-           <TextBlock Text="АВТОРИЗАЦИЯ" HorizontalAlignment="Center" />
-           <TextBox Grid.Row="1" Text="{Binding Nickname}" PlaceholderText="Никнейм" HorizontalAlignment="Stretch"/>
-           <TextBlock Grid.Row="2" Text="{Binding Error}" />
-           <Button Grid.Row="3" Content="ВОЙТИ" Command="{Binding LoginCommand}" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
-       </Grid>
-   </Border>
+
+
+    <Border Classes="Window" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="20"
+            Width="400">
+        <Grid RowDefinitions="65 Auto 50" RowSpacing="20">
+            <TextBlock Text="АВТОРИЗАЦИЯ" Classes="Title" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            
+            <Grid Grid.Row="1" RowDefinitions="50 Auto" RowSpacing="5">
+                <TextBox Grid.Row="0" Text="{Binding Nickname}"
+                         PlaceholderText="Никнейм"
+                         Classes="PrimaryTextBox"
+                         MaxLength="16"
+                         VerticalContentAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch">
+                    <TextBox.InnerLeftContent>
+                        <Svg Path="/Assets/Icons/user.svg" Stretch="UniformToFill" Width="16" Height="16"
+                             Margin="15 0 0 0" />
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+                <TextBlock Grid.Row="1" Text="{Binding Error}" Classes="Error" />
+            </Grid>
+            <Button Grid.Row="2" Content="ВОЙТИ"
+                    Classes="Primary"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    IsEnabled="{Binding CanLogin}"
+                    Command="{Binding LoginCommand}" />
+        </Grid>
+    </Border>
+    <!-- <Border> -->
+    <!--     <Grid RowDefinitions="Auto Auto Auto Auto Auto" Width="200"> -->
+    <!--         <TextBlock Text="АВТОРИЗАЦИЯ" HorizontalAlignment="Center" /> -->
+    <!--         <TextBox Grid.Row="1" Text="{Binding Nickname}" PlaceholderText="Никнейм" HorizontalAlignment="Stretch"/> -->
+    <!--         <TextBlock Grid.Row="2" Text="{Binding Error}" /> -->
+    <!--         <Button Grid.Row="3" Content="ВОЙТИ" Command="{Binding LoginCommand}" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/> -->
+    <!--     </Grid> -->
+    <!-- </Border> -->
 </UserControl>

@@ -1,0 +1,26 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+
+    <Style Selector="CheckBox.CheckBoxPrimary">
+        <Style Selector="^:unchecked">
+            <Style Selector="^ Border#NormalRectangle">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="#46F2E5FF" />
+
+            </Style>
+        </Style>
+        <Style Selector="^:checked">
+            <Style Selector="^ Border#NormalRectangle">
+                <Setter Property="Background" Value="#FF6F3FCA" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+            </Style>
+        </Style>
+    </Style>
+</Styles>

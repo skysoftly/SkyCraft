@@ -1,0 +1,22 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:SkyCraft.Launcher.Converters"
+             xmlns:vm="using:SkyCraft.Launcher.ViewModels.Overlay"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyCraft.Launcher.Views.Overlay.InitializeView"
+             x:DataType="vm:InitializeViewModel">
+   
+    
+    
+    <Grid>
+        <Border Classes="Window BorderScale" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10"
+                Width="400"
+                Height="100"
+                RenderTransformOrigin="50% 50%"
+                RenderTransform="{Binding Transform}">
+            <TextBlock Text="Загрузка..." Classes="TitleOverlay" VerticalAlignment="Top" HorizontalAlignment="Center" />
+        </Border>
+    </Grid>
+</UserControl>

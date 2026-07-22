@@ -10,4 +10,5 @@ public partial class LoginPageView : UserControl
     {
         InitializeComponent();
     }
+
 }

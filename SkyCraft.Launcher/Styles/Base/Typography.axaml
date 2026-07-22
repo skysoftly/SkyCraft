@@ -1,0 +1,58 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Все стили текста -->
+    
+    <Style Selector="TextBlock.Title">
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style Selector="TextBlock.TitleOverlay">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="TextBlock.SectionTitle">
+        <Setter Property="Foreground" Value="{StaticResource ColorTextMuted}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    
+    <Style Selector="TextBlock.Name">
+        <Setter Property="Foreground" Value="{StaticResource ColorTextWhite}" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+    
+    <Style Selector="TextBlock.Version">
+        <Setter Property="Foreground" Value="#a99bc5" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+    
+    <Style Selector="TextBlock.Online">
+        <Setter Property="Foreground" Value="{StaticResource ColorTextWhite}" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+    
+    <Style Selector="TextBlock.Desc">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource ColorTextLight}"/>
+        <Setter Property="Opacity" Value="0.6"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+    <Style Selector="TextBlock.DescSelected">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource ColorTextLight}"/>
+        <Setter Property="Opacity" Value="1"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+    
+    
+    <Style Selector="TextBlock.Error">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#bb2525"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+</Styles>

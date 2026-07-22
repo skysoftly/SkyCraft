@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using SkyCraft.Launcher.ViewModels;
@@ -14,6 +15,7 @@ namespace SkyCraft.Launcher;
 public partial class App : Application
 {
     public static IServiceProvider Services { get; private set; } = null!;
+    public static Window MainWindow { get; set; } = null!;
 
     public override void Initialize()
     {
@@ -28,10 +30,11 @@ public partial class App : Application
         {
             var vm = Services.GetRequiredService<MainWindowViewModel>();
 
-            desktop.MainWindow = new MainWindow
+            MainWindow = new MainWindow
             {
                 DataContext = vm
             };
+            desktop.MainWindow = MainWindow;
 
             await vm.InitializeAsync();
         }

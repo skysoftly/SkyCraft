@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Фоновые градиенты -->
+    <RadialGradientBrush x:Key="BrushBackground"
+                         Center="50% 0%"
+                         RadiusX="100%"
+                         RadiusY="100%">
+        <GradientStop Color="{StaticResource ColorBg}" Offset="0"/>
+        <GradientStop Color="{StaticResource ColorBgDark}" Offset="0.5"/>
+    </RadialGradientBrush>
+    
+    <LinearGradientBrush x:Key="BrushWindowBg" StartPoint="0% 0%" EndPoint="100% 100%">
+        <GradientStop Color="#91281459" Offset="0"/>
+        <GradientStop Color="#910F081E" Offset="1"/>
+    </LinearGradientBrush>
+    
+    <!-- Градиенты кнопок -->
+    <LinearGradientBrush x:Key="BrushGradientPrimary" StartPoint="0% 50%" EndPoint="100% 50%">
+        <GradientStop Color="#7138ff" Offset="0"/>
+        <GradientStop Color="{StaticResource ColorPrimaryLight}" Offset="1"/>
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="BrushGradientDisabled" StartPoint="0% 50%" EndPoint="100% 50%">
+        <GradientStop Color="#3b207e" Offset="0"/>
+        <GradientStop Color="#6e2dc8" Offset="1"/>
+    </LinearGradientBrush>
+    
+    <!-- Градиент для текста логотипа -->
+    <LinearGradientBrush x:Key="BrushLogo" StartPoint="0% 50%" EndPoint="100% 50%">
+        <GradientStop Color="{StaticResource ColorTextWhite}" Offset="0"/>
+        <GradientStop Color="#FFA86BFF" Offset="1"/>
+    </LinearGradientBrush>
+    
+    <!-- Градиент для выделенных элементов -->
+    <LinearGradientBrush x:Key="BrushSelected" StartPoint="0% 50%" EndPoint="100% 50%">
+        <GradientStop Color="#6635bb" Offset="0"/>
+        <GradientStop Color="#3b206a" Offset="1"/>
+    </LinearGradientBrush>
+</ResourceDictionary>

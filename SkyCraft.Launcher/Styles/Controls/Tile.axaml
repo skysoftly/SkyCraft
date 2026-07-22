@@ -1,0 +1,42 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Стили плиток/карточек -->
+    
+    <Style Selector="Border.Tile">
+        <Setter Property="Background" Value="{StaticResource ColorBgTile}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ColorBorderTile}"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Effect" Value="{StaticResource EffectShadow}"/>
+    </Style>
+    
+    <Style Selector="Border.TileLight">
+        <Setter Property="Background" Value="{StaticResource ColorBgCard}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ColorBorderCard}"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Effect" Value="{StaticResource EffectShadow}"/>
+    </Style>
+
+    
+    <Style Selector="Rectangle.TileRect">
+        <Setter Property="Fill" Value="{StaticResource ColorBorder}"/>
+    </Style>
+    
+    <Style Selector="TextBlock.TileName">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="{StaticResource ColorTextAccent}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    
+    <Style Selector="TextBlock.TileDesc">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource ColorTextGray}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+    
+    <Style Selector="TextBlock.TileCaption">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource ColorTextGrayDark}"/>
+    </Style>
+</Styles>

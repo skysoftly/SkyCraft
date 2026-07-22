@@ -1,0 +1,111 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:SkyCraft.Launcher.Converters"
+             xmlns:vm="using:SkyCraft.Launcher.ViewModels.Overlay"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyCraft.Launcher.Views.Overlay.SettingsOverlayView"
+             x:DataType="vm:SettingsOverlayViewModel">
+
+
+    <Grid>
+        <Button Classes="BackgroundBtn" Command="{Binding CloseCommand}" />
+        <Border Classes="Window BorderScale" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10"
+                Width="400"
+                RenderTransformOrigin="50% 50%"
+                RenderTransform="{Binding Transform}">
+            <Grid RowDefinitions="Auto * Auto" RowSpacing="20">
+                <Grid>
+                    <TextBlock Text="Настройки" Classes="TitleOverlay" HorizontalAlignment="Left" />
+
+
+                    <Button Command="{Binding CloseCommand}"
+                            Classes="Icon Transparent"
+                            Width="22" Height="22"
+                            HorizontalAlignment="Right">
+                        <Svg Path="/Assets/Icons/close.svg" />
+                    </Button>
+                </Grid>
+
+                <Grid Grid.Row="1" RowDefinitions="Auto *" RowSpacing="10">
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="Папка загрузок:" Classes="TileCaption" />
+                        <Border HorizontalAlignment="Stretch" Classes="Tile" Padding="10">
+                            <Grid ColumnDefinitions="Auto * Auto Auto" VerticalAlignment="Center"
+                                  ColumnSpacing="10">
+
+                                <Svg Path="/Assets/Icons/folder.svg" CurrentColor="Gray"
+                                     Width="12" Height="12" />
+
+                                <TextBlock Grid.Column="1" Text="{Binding SelectedPath}"
+                                           VerticalAlignment="Center" 
+                                           Classes="TileCaption"/>
+
+                                <Button Grid.Column="2" Command="{Binding OpenFolderCommand}"
+                                        VerticalAlignment="Center"
+                                        Classes="Icon MiniBtn">
+                                    <Svg Path="/Assets/Icons/folder.svg" 
+                                         Width="12" Height="12"/>
+                                </Button>
+                                <Button Grid.Column="3" Command="{Binding EditFolderCommand}"
+                                        VerticalAlignment="Center"
+                                        Classes="Icon MiniBtn">
+                                    <Svg Path="/Assets/Icons/pen.svg" 
+                                         Width="12" Height="12"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <TextBlock Text="Выделение памяти:" Classes="TileCaption" />
+                        <Grid>
+                            <Slider Value="{Binding RamGb}"
+                                    Maximum="{Binding MaxRamGb}"
+                                    Minimum="0"
+                                    Classes="SliderPrimary"
+                                    TickFrequency="2"
+                                    IsSnapToTickEnabled="True" Margin="20 -15">
+                            </Slider>
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding RamOptions}"
+                                      HorizontalAlignment="Stretch"
+                                      Height="14">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Classes="Transparent"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding SelectCommand}">
+                                        <TextBlock Text="{Binding Text}"
+                                                   Classes.Desc="{Binding !IsSelected}"
+                                                   Classes.DescSelected="{Binding IsSelected}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+
+                        <CheckBox Classes="CheckBoxPrimary" IsChecked="{Binding HideOnPlay}">
+                            <TextBlock Text="Скрывать при запуске"
+                                       Classes="BadgeDesc" />
+                        </CheckBox>
+                    </StackPanel>
+                </Grid>
+
+                <Button Grid.Row="2" Content="СОХРАНИТЬ"
+                        Classes="Primary"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Command="{Binding SaveCommand}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

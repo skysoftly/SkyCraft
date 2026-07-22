@@ -2,19 +2,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:SkyCraft.Launcher.Converters"
              xmlns:vm="using:SkyCraft.Launcher.ViewModels.Overlay"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SkyCraft.Launcher.Views.Overlay.LoadingOverlayView"
              x:DataType="vm:LoadingOverlayViewModel">
    
-    <Border>
-        <Grid>
-            <StackPanel>
-                <TextBlock Text="Loading"/>
-                <Button
-                    Content="✕"
-                    Command="{Binding CloseCommand}" />
-            </StackPanel>
-        </Grid>
-    </Border>
+    
+    
+    <Grid>
+        <Button Classes="BackgroundBtn" Command="{Binding CloseCommand}" IsEnabled="{Binding InstallContext.Finally}" />
+        <Border Classes="Window BorderScale" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10"
+                Width="400"
+                RenderTransformOrigin="50% 50%"
+                RenderTransform="{Binding Transform}">
+            <Grid RowDefinitions="Auto *" RowSpacing="20">
+                <Grid>
+                    <TextBlock Text="{Binding InstallContext.Status}" Classes="TitleOverlay" HorizontalAlignment="Center" />
+
+
+                    <Button Command="{Binding CloseCommand}"
+                            Classes="Icon Transparent"
+                            Width="22" Height="22"
+                            IsVisible="{Binding InstallContext.Finally}"
+                            HorizontalAlignment="Right">
+                        <Svg Path="/Assets/Icons/close.svg"/>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1" RowDefinitions="20 *" RowSpacing="10">
+                    <Grid ColumnDefinitions="* Auto" ColumnSpacing="10" VerticalAlignment="Center"
+                          IsVisible="{Binding !InstallContext.Finally}">
+                        <ProgressBar Value="{Binding InstallContext.Progress}" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding InstallContext.Progress, Converter={x:Static converters:ProgressToPercentConverter.Instance}}" Classes="TileDesc" />
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Grid.Row="1" Text="{Binding InstallContext.File}" Classes="TileDesc" 
+                               IsVisible="{Binding !InstallContext.Finally}"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

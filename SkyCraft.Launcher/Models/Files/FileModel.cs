@@ -11,5 +11,8 @@ public class FileModel
     public required long Size { get; init; }
 
     [JsonPropertyName("sha256")]
-    public required string Sha256 { get; init; }
+    public required string? Sha256 { get; init; }
+    
+    [JsonPropertyName("optional")]
+    public required bool Optional { get; init; }
 }

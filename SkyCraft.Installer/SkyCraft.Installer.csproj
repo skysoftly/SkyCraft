@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <ApplicationIcon>Assets/icon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,5 +30,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\SkyCraft.Shared\SkyCraft.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\TitleBarView.axaml.cs">
+        <DependentUpon>TitleBarView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

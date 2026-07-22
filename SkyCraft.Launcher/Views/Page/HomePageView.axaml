@@ -3,34 +3,99 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:SkyCraft.Launcher.ViewModels.Page"
+             xmlns:animated="clr-namespace:Avalonia.Xaml.Interactions.Animated;assembly=Avalonia.Xaml.Interactions.Animated"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SkyCraft.Launcher.Views.Page.HomePageView"
              x:DataType="vm:HomePageViewModel">
-    <Grid ColumnDefinitions="300 *">
-        <ListBox
-            ItemsSource="{Binding Builds}"
-            SelectedItem="{Binding SelectedBuild}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
+    <!-- <Grid ColumnDefinitions="300 *"> -->
+    <!--     <ListBox -->
+    <!--         ItemsSource="{Binding Builds}" -->
+    <!--         SelectedItem="{Binding SelectedBuild}"> -->
+    <!--         <ListBox.ItemTemplate> -->
+    <!--             <DataTemplate> -->
+    <!-- -->
+    <!--                 <Grid ColumnDefinitions="*,Auto,Auto"> -->
+    <!-- -->
+    <!--                     <StackPanel> -->
+    <!-- -->
+    <!--                         <TextBlock Text="{Binding Build.Info.Name}" /> -->
+    <!-- -->
+    <!--                         <TextBlock Text="{Binding Build.Minecraft.Version}" /> -->
+    <!-- -->
+    <!--                     </StackPanel> -->
+    <!-- -->
+    <!--                     <TextBlock -->
+    <!--                         Grid.Column="2" -->
+    <!--                         Text="{Binding Online}" /> -->
+    <!-- -->
+    <!--                 </Grid> -->
+    <!--             </DataTemplate> -->
+    <!--         </ListBox.ItemTemplate> -->
+    <!--     </ListBox> -->
+    <!--     <ContentControl Grid.Column="1" Content="{Binding SelectedBuild}"/> -->
+    <!-- </Grid> -->
+    
+    
+    <Grid ColumnDefinitions="350 *" ColumnSpacing="10">
+        <Border>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden">
+                <Interaction.Behaviors>
+                    <animated:VerticalScrollViewerAnimatedBehavior />
+                </Interaction.Behaviors>
+                <!-- Ваш контент -->
+                <StackPanel Spacing="10">
+                    <StackPanel Orientation="Horizontal" Spacing="5"
+                                Margin="12 0">
+                        <Svg Path="/Assets/Icons/book.svg"
+                             Width="20"
+                             Height="20" />
+                        <TextBlock Classes="SectionTitle"
+                                   VerticalAlignment="Center"
+                                   Text="ВСЕ СБОРКИ" />
+                    </StackPanel>
+                    <ListBox ItemsSource="{Binding Builds}"
+                             SelectedItem="{Binding SelectedBuild}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="PART_Border" Margin="0 0 15 0" Padding="10">
 
-                    <Grid ColumnDefinitions="*,Auto,Auto">
+                                    <Grid ColumnDefinitions="Auto * Auto" ColumnSpacing="10">
+                                        <Border Classes="ImageCorner">
+                                            <Image Source="{Binding Icon}"
+                                                   Width="50" Height="50"
+                                                   Stretch="UniformToFill">
+                                            </Image>
+                                        </Border>
+                                        <Grid Grid.Column="1" RowDefinitions="* *" HorizontalAlignment="Left"
+                                              VerticalAlignment="Center" RowSpacing="10">
+                                            <TextBlock Classes="Name" Text="{Binding Build.Info.Name}" />
 
-                        <StackPanel>
+                                            <TextBlock Grid.Row="1" Classes="Version"
+                                                       Text="{Binding Build.Minecraft.Version}"
+                                                       VerticalAlignment="Center" HorizontalAlignment="Left" />
 
-                            <TextBlock Text="{Binding Build.Info.Name}" />
+                                        </Grid>
 
-                            <TextBlock Text="{Binding Build.Minecraft.Version}" />
+                                        <StackPanel Grid.Column="2" Spacing="5" Orientation="Horizontal"
+                                                    VerticalAlignment="Bottom">
+                                            <TextBlock Classes="Online" Text="{Binding Online}"
+                                                       VerticalAlignment="Center" />
+                                            <Ellipse Width="10"
+                                                     Height="10"
+                                                     VerticalAlignment="Center"
+                                                     Fill="#4CAF50" />
+                                        </StackPanel>
 
-                        </StackPanel>
+                                    </Grid>
 
-                        <TextBlock
-                            Grid.Column="2"
-                            Text="{Binding Online}" />
-
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <ContentControl Grid.Column="1" Content="{Binding SelectedBuild}"/>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        <ContentControl Grid.Column="1" Content="{Binding SelectedBuild}" ClipToBounds="False" />
     </Grid>
 </UserControl>
