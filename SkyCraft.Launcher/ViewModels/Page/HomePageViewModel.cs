@@ -22,6 +22,7 @@ public partial class HomePageViewModel : PageViewModelBase
     private readonly MinecraftService _minecraftService;
     private readonly InstanceService _instanceService;
     private readonly ImageService _imageService;
+    private readonly ServerService _serverService;
 
     public ObservableCollection<BuildCardViewModel> Builds { get; } = [];
 
@@ -29,7 +30,7 @@ public partial class HomePageViewModel : PageViewModelBase
 
 
     public HomePageViewModel(BuildService buildService, NavigationService navigation, InstanceService instanceService,
-        MinecraftService minecraftService, SettingsService settings, ImageService imageService)
+        MinecraftService minecraftService, SettingsService settings, ImageService imageService, ServerService serverService)
     {
         _buildService = buildService;
         _navigation = navigation;
@@ -37,6 +38,7 @@ public partial class HomePageViewModel : PageViewModelBase
         _minecraftService = minecraftService;
         _settings = settings;
         _imageService = imageService;
+        _serverService = serverService;
     }
 
     public override async Task OnNavigatedToAsync()
@@ -46,7 +48,7 @@ public partial class HomePageViewModel : PageViewModelBase
         foreach (var build in builds)
         {
             var buildCard = new BuildCardViewModel(build, _navigation, _minecraftService, _instanceService, _settings,
-                _imageService);
+                _imageService, _serverService);
             Builds.Add(buildCard);
             await buildCard.UpdateBuildCard();
         }

@@ -23,6 +23,7 @@ public partial class BuildCardViewModel : ViewModelBase
     private readonly MinecraftService _minecraftService;
     private readonly InstanceService _instanceService;
     private readonly ImageService _imageService;
+    private readonly ServerService _serverService;
     public BuildModel Build { get; }
 
     [ObservableProperty] private Bitmap? _icon;
@@ -31,7 +32,7 @@ public partial class BuildCardViewModel : ViewModelBase
     [ObservableProperty] private int _online;
 
     public BuildCardViewModel(BuildModel build, NavigationService navigation, MinecraftService minecraftService,
-        InstanceService instanceService, SettingsService settings, ImageService imageService)
+        InstanceService instanceService, SettingsService settings, ImageService imageService, ServerService serverService)
     {
         Build = build;
         _navigation = navigation;
@@ -39,12 +40,20 @@ public partial class BuildCardViewModel : ViewModelBase
         _instanceService = instanceService;
         _settings = settings;
         _imageService = imageService;
+        _serverService = serverService;
     }
 
     public async Task UpdateBuildCard()
     {
         Icon = await _imageService.LoadAsync(Build.Assets.BaseUrl + Build.Assets.Icon);
         Banner = await _imageService.LoadAsync(Build.Assets.BaseUrl + Build.Assets.Banner);
+
+        Online = 0;
+        
+        foreach (var server in Build.Servers)
+        {
+            Online += await _serverService.GetOnlineAsync(server.Host, server.Port);
+        }
     }
     
     [RelayCommand]

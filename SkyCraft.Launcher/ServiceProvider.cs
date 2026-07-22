@@ -29,7 +29,7 @@ public static class ServiceProvider
         services.AddSingleton<MinecraftService>();
         services.AddSingleton<InstanceService>();
         services.AddSingleton<ImageService>();
-
+        services.AddSingleton<ServerService>();
 
 
         services.AddTransient<LoginPageViewModel>();
