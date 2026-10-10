@@ -43,7 +43,7 @@
                     </Border>
                     <Border Classes="Badge">
                         <StackPanel Spacing="5" Orientation="Horizontal">
-                            <Svg Path="/Assets/Icons/arrowClock.svg" Width="15" />
+                            <Svg Path="/Assets/Icons/arrowClock.svg" Width="15" CurrentColor="#7ec841"/>
                             <StackPanel Orientation="Horizontal">
 
                                 <TextBlock Text="Последнее обновление: " Classes="BadgeText" />
@@ -67,6 +67,18 @@
                     HorizontalContentAlignment="Center">
                 <Grid>
                     <TextBlock Text="Играть" Classes="Title" />
+                </Grid>
+            </Button>
+            <Button Grid.Column="1" Classes="Primary"
+                    Command="{Binding CheckCommand}"
+                    Width="40"
+                    Height="40"
+                    Margin="10"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center">
+                <Grid>
+                    <Svg Path="/Assets/Icons/arrowClock.svg" CurrentColor="White"/>
                 </Grid>
             </Button>
         </Grid>

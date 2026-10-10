@@ -24,15 +24,21 @@ public partial class BuildCardViewModel : ViewModelBase
     private readonly InstanceService _instanceService;
     private readonly ImageService _imageService;
     private readonly ServerService _serverService;
+
     public BuildModel Build { get; }
 
     [ObservableProperty] private Bitmap? _icon;
     [ObservableProperty] private Bitmap? _banner;
-    
     [ObservableProperty] private int _online;
 
-    public BuildCardViewModel(BuildModel build, NavigationService navigation, MinecraftService minecraftService,
-        InstanceService instanceService, SettingsService settings, ImageService imageService, ServerService serverService)
+    public BuildCardViewModel(
+        BuildModel build,
+        NavigationService navigation,
+        MinecraftService minecraftService,
+        InstanceService instanceService,
+        SettingsService settings,
+        ImageService imageService,
+        ServerService serverService)
     {
         Build = build;
         _navigation = navigation;
@@ -45,33 +51,45 @@ public partial class BuildCardViewModel : ViewModelBase
 
     public async Task UpdateBuildCard()
     {
-        Icon = await _imageService.LoadAsync(Build.Assets.BaseUrl + Build.Assets.Icon);
+        Icon   = await _imageService.LoadAsync(Build.Assets.BaseUrl + Build.Assets.Icon);
         Banner = await _imageService.LoadAsync(Build.Assets.BaseUrl + Build.Assets.Banner);
 
         Online = 0;
-        
+
         foreach (var server in Build.Servers)
         {
             Online += await _serverService.GetOnlineAsync(server.Host, server.Port);
         }
     }
-    
+
+    // ============================================================
+    //  ИГРАТЬ
+    // ============================================================
+
     [RelayCommand]
     private async Task PlayAsync()
     {
         var overlay = await _navigation.ShowOverlayAsync<LoadingOverlayViewModel>();
-
         var installContext = overlay.InstallContext;
+
         try
         {
-            var context = await _minecraftService.InstallAsync(Build, installContext);
+            // 1. Minecraft + лоадер (с быстрым пропуском, если уже установлено)
+            var ctx = await _minecraftService.InstallAsync(Build, installContext);
+
+            // 2. Файлы сборки (mods, configs и т.п.)
+            //    Без forceCheck: если версия манифеста совпадает — пропустит
             await _instanceService.InstallAsync(Build, installContext);
-            installContext.Status = "Игра запущена!";
+
+            installContext.Status  = "Игра запущена!";
             installContext.Finally = true;
-            await _minecraftService.LaunchAsync(Build, context);
+
+            // 3. Запуск
+            await _minecraftService.LaunchAsync(Build, ctx);
 
             _settings.Settings.SelectedBuild = Build.Info.Id;
             await _settings.SaveAsync();
+
             if (_settings.Settings.HideOnPlay)
             {
                 App.MainWindow.Close();
@@ -79,22 +97,53 @@ public partial class BuildCardViewModel : ViewModelBase
         }
         finally
         {
+            // overlay скроется сам через Finally = true
         }
     }
+
+    // ============================================================
+    //  ПРОВЕРИТЬ ФАЙЛЫ (принудительно)
+    // ============================================================
+
+    [RelayCommand]
+    private async Task CheckAsync()
+    {
+        var overlay = await _navigation.ShowOverlayAsync<LoadingOverlayViewModel>();
+        var installContext = overlay.InstallContext;
+
+        try
+        {
+            // 1. Принудительная проверка Minecraft + лоадер
+            bool mcOk = await _minecraftService.VerifyAndRepairAsync(Build, installContext);
+
+            // 2. Принудительная проверка файлов сборки
+            bool filesOk = await _instanceService.VerifyAndRepairAsync(Build, installContext);
+
+            installContext.Status  = (mcOk && filesOk)
+                ? "Проверка завершена успешно"
+                : "Проверка завершена с ошибками";
+            installContext.Finally = true;
+        }
+        finally
+        {
+        }
+    }
+
+    // ============================================================
+    //  МОДЫ
+    // ============================================================
 
     [RelayCommand]
     private async Task ShowAllModsAsync()
     {
         var vm = await _navigation.ShowOverlayAsync<AllModsViewModel>();
-
         await vm.UpdateMods(Build);
     }
-    
+
     [RelayCommand]
     private async Task ShowMyModsAsync()
     {
         var vm = await _navigation.ShowOverlayAsync<MyModsViewModel>();
-
         await vm.UpdateMods(Build);
     }
 
@@ -102,8 +151,6 @@ public partial class BuildCardViewModel : ViewModelBase
     private async Task ShowOptionalModsAsync()
     {
         var vm = await _navigation.ShowOverlayAsync<OptionalModsViewModel>();
-
         await vm.UpdateMods(Build);
     }
-
 }
