@@ -8,7 +8,7 @@ public class FileModel
     public required string Path { get; init; }
 
     [JsonPropertyName("size")]
-    public required long Size { get; init; }
+    public required long? Size { get; init; }
 
     [JsonPropertyName("sha256")]
     public required string? Sha256 { get; init; }

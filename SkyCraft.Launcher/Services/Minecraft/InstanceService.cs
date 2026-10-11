@@ -28,17 +28,27 @@ public class InstanceService
     }
 
     // ============================================================
+    //  РЕЗУЛЬТАТ ЛЁГКОЙ ПРОВЕРКИ
+    // ============================================================
+
+    private sealed class QuickCheckResult
+    {
+        public bool AllGood;
+        public int Missing;      // файлов нет
+        public int SizeMismatch; // размер не совпал
+        public int Total;
+    }
+
+    // ============================================================
     //  УСТАНОВКА ФАЙЛОВ
     // ============================================================
 
     /// <summary>
-    /// Обычная установка. Если версия манифеста совпадает с сохранённой —
-    /// файлы не проверяются и не скачиваются.
+    /// Обычная установка.
+    /// - Если версия манифеста совпала и forceCheck=false → лёгкая проверка (наличие + размер).
+    /// - Если чего-то не хватает → докачивает только недостающее (без полного SHA).
+    /// - Если forceCheck=true → SHA256 каждого файла.
     /// </summary>
-    /// <param name="forceCheck">
-    /// true — принудительно проверить SHA256 каждого файла и докачать недостающие,
-    /// игнорируя совпадение версии манифеста.
-    /// </param>
     public async Task InstallAsync(
         BuildModel build,
         InstallContext installContext,
@@ -54,25 +64,41 @@ public class InstanceService
 
         var manifest = await GetFilesManifestAsync(build.Files.Url);
 
-        // ---- Проверка версии манифеста ----
         string currentVersion = ReadManifestVersion(instancePath);
+        bool versionMatch = !string.IsNullOrEmpty(currentVersion)
+                            && currentVersion == manifest.Version;
 
-        if (!forceCheck &&
-            !string.IsNullOrEmpty(currentVersion) &&
-            currentVersion == manifest.Version)
+        // ---------- Быстрый путь ----------
+        if (!forceCheck && versionMatch)
         {
-            Logger.Info($"Manifest version match ({currentVersion}), skipping file install.");
-            installContext.Status   = "Файлы актуальны";
-            installContext.Progress = 100;
-            return;
+            installContext.Status = "Быстрая проверка файлов";
+
+            var quick = QuickCheck(instancePath, manifest);
+
+            Logger.Info(
+                $"Quick check: total={quick.Total}, missing={quick.Missing}, " +
+                $"sizeMismatch={quick.SizeMismatch}");
+
+            if (quick.AllGood)
+            {
+                installContext.Status   = "Файлы актуальны";
+                installContext.Progress = 100;
+                Logger.Info("All files present, skipping install.");
+                return;
+            }
+
+            Logger.Info("Some files missing/changed — running repair.");
+        }
+        else if (forceCheck)
+        {
+            Logger.Info("Force check requested — verifying every file by SHA256.");
+        }
+        else
+        {
+            Logger.Info($"Manifest version changed: '{currentVersion}' -> '{manifest.Version}'.");
         }
 
-        if (forceCheck)
-            Logger.Info("Force check requested — verifying every file by SHA256.");
-        else
-            Logger.Info($"Manifest version changed: '{currentVersion}' -> '{manifest.Version}'.");
-
-        // ---- Скачивание / проверка файлов ----
+        // ---------- Полная установка / ремонт ----------
         var allowedFiles = new List<string>();
 
         int total = manifest.Files.Count;
@@ -91,10 +117,8 @@ public class InstanceService
             installContext.Progress = total == 0 ? 100 : (double)index / total * 100;
         }
 
-        // ---- Чистим лишнее ----
         await CleanDirectoryAsync(instancePath, allowedFiles, manifest.CleanDirectories);
 
-        // ---- Записываем новую версию ----
         WriteManifestVersion(instancePath, manifest.Version);
 
         installContext.Status   = "Файлы установлены";
@@ -106,8 +130,7 @@ public class InstanceService
     // ============================================================
 
     /// <summary>
-    /// Принудительно проверяет все файлы манифеста по SHA256 и докачивает битые/отсутствующие.
-    /// Не смотрит на версию манифеста. Также удаляет лишние файлы из cleanDirectories.
+    /// Принудительно проверяет все файлы манифеста по SHA256.
     /// </summary>
     public async Task<bool> VerifyAndRepairAsync(BuildModel build, InstallContext installContext)
     {
@@ -118,9 +141,9 @@ public class InstanceService
 
             await InstallAsync(build, installContext, forceCheck: true);
 
-            installContext.Status = "Проверка завершена";
+            installContext.Status   = "Проверка завершена";
             installContext.Progress = 100;
-            installContext.Finally = true;
+            installContext.Finally  = true;
 
             Logger.Info("Force verify files completed");
             return true;
@@ -131,6 +154,68 @@ public class InstanceService
             installContext.Status = "Ошибка проверки: " + ex.Message;
             return false;
         }
+    }
+
+    // ============================================================
+    //  ЛЁГКАЯ ПРОВЕРКА (наличие + размер)
+    // ============================================================
+
+    private QuickCheckResult QuickCheck(string instancePath, FilesManifestModel manifest)
+    {
+        var result = new QuickCheckResult { Total = manifest.Files.Count };
+
+        foreach (var file in manifest.Files)
+        {
+            string savePath = ResolveSavePath(instancePath, file, out _);
+
+            // optional .disabled
+            if (file.Optional && File.Exists(savePath + ".disabled"))
+                continue;
+
+            if (!File.Exists(savePath))
+            {
+                result.Missing++;
+                continue;
+            }
+
+            // Если SHA нет — файл неприкосновенный, размер не проверяем
+            if (file.Sha256 is null)
+                continue;
+
+            if (file.Size is > 0)
+            {
+                var info = new FileInfo(savePath);
+                if (info.Length != file.Size.Value)
+                    result.SizeMismatch++;
+            }
+        }
+
+        result.AllGood = result.Missing == 0 && result.SizeMismatch == 0;
+        return result;
+    }
+
+    // ============================================================
+    //  ПУТИ
+    // ============================================================
+
+    /// <summary>
+    /// Возвращает итоговый путь на диске для файла (учитывая optional-префикс).
+    /// </summary>
+    private static string ResolveSavePath(
+        string instancePath,
+        FileModel file,
+        out string relativePath)
+    {
+        relativePath = file.Path;
+
+        if (file.Optional)
+        {
+            string dir  = Path.GetDirectoryName(relativePath) ?? string.Empty;
+            string name = Path.GetFileName(relativePath);
+            relativePath = Path.Combine(dir, $"optional-{name}");
+        }
+
+        return Path.Combine(instancePath, relativePath);
     }
 
     // ============================================================
@@ -160,14 +245,8 @@ public class InstanceService
         if (!File.Exists(path))
             return string.Empty;
 
-        try
-        {
-            return File.ReadAllText(path).Trim();
-        }
-        catch
-        {
-            return string.Empty;
-        }
+        try { return File.ReadAllText(path).Trim(); }
+        catch { return string.Empty; }
     }
 
     private static void WriteManifestVersion(string instancePath, string version)
@@ -186,11 +265,6 @@ public class InstanceService
     //  СКАЧИВАНИЕ ОДНОГО ФАЙЛА
     // ============================================================
 
-    /// <summary>
-    /// Возвращает относительный путь скачанного (или уже существующего) файла.
-    /// Если forceCheck = false и файл существует и проходит SHA256 — сразу возвращает путь.
-    /// Если forceCheck = true — проверяет SHA256 обязательно.
-    /// </summary>
     private async Task<string> DownloadFile(
         BuildModel build,
         FileModel file,
@@ -199,53 +273,51 @@ public class InstanceService
     {
         string url = $"{build.Files.BaseUrl}{file.Path}";
 
-        string relativePath = file.Path;
-        string dir = Path.GetDirectoryName(relativePath) ?? string.Empty;
+        string savePath = ResolveSavePath(instancePath, file, out string relativePath);
 
-        if (file.Optional)
-        {
-            string name = Path.GetFileName(relativePath);
-            relativePath = Path.Combine(dir, $"optional-{name}");
-        }
-
-        string savePath = Path.Combine(instancePath, relativePath);
         string? saveDir = Path.GetDirectoryName(savePath);
-
         if (!string.IsNullOrEmpty(saveDir))
             Directory.CreateDirectory(saveDir);
 
         // -------- Проверка существующего файла --------
         if (File.Exists(savePath))
         {
-            if (!forceCheck)
-            {
-                // Быстрый путь: файл есть — считаем валидным (доверяем версии манифеста)
-                if (file.Sha256 is null)
-                    return relativePath;
+            // Если SHA нет — файл неприкосновенный: не проверяем, не заменяем.
+            if (file.Sha256 is null)
+                return relativePath;
 
-                // SHA указан — проверим хотя бы его, это дёшево и надёжно
-                if (await HashHelper.VerifySha256Async(savePath, file.Sha256))
-                    return relativePath;
+            bool valid;
+
+            if (forceCheck)
+            {
+                // Полная проверка: SHA256
+                valid = await HashHelper.VerifySha256Async(savePath, file.Sha256);
             }
             else
             {
-                // Принудительная проверка: SHA обязателен
-                if (file.Sha256 is null)
+                // Лёгкая проверка: размер (если известен)
+                valid = true;
+
+                if (file.Size is > 0)
                 {
-                    // Нечего проверять — файл существует, считаем ок
-                    return relativePath;
+                    var info = new FileInfo(savePath);
+                    if (info.Length != file.Size.Value)
+                        valid = false;
                 }
-
-                if (await HashHelper.VerifySha256Async(savePath, file.Sha256))
-                    return relativePath;
-
-                Logger.Info($"SHA256 mismatch, redownloading: {relativePath}");
             }
+
+            if (valid)
+                return relativePath;
+
+            Logger.Info($"File invalid, redownloading: {relativePath}");
         }
         else if (file.Optional && File.Exists(savePath + ".disabled"))
         {
-            // Отключённый мод: не трогаем, он "разрешён" как optional-disabled
-            if (file.Sha256 is null ||
+            // Отключённый optional-мод: не трогаем.
+            if (file.Sha256 is null)
+                return relativePath;
+
+            if (!forceCheck ||
                 await HashHelper.VerifySha256Async(savePath + ".disabled", file.Sha256))
             {
                 return relativePath;
@@ -253,25 +325,36 @@ public class InstanceService
         }
 
         // -------- Скачивание --------
+        using var response = await _httpClient.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+
+        string tempPath = savePath + ".tmp";
+
         try
         {
-            using var response = await _httpClient.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-
-            // Пишем во временный файл, потом переносим — защита от битых загрузок
-            string tempPath = savePath + ".tmp";
-
             using (var stream = await response.Content.ReadAsStreamAsync())
             using (var fileStream = File.Create(tempPath))
             {
                 await stream.CopyToAsync(fileStream);
             }
 
-            // Проверяем SHA после загрузки (если он известен)
+            // Проверка размера после загрузки
+            if (file.Size is > 0)
+            {
+                var info = new FileInfo(tempPath);
+                if (info.Length != file.Size.Value)
+                {
+                    File.Delete(tempPath);
+                    throw new Exception(
+                        $"Size mismatch after download: {relativePath} " +
+                        $"(expected {file.Size}, got {info.Length})");
+                }
+            }
+
+            // Проверка SHA после загрузки (если он известен)
             if (file.Sha256 is not null &&
                 !await HashHelper.VerifySha256Async(tempPath, file.Sha256))
             {
-                Logger.Error($"Downloaded file failed SHA256: {relativePath}");
                 File.Delete(tempPath);
                 throw new Exception($"SHA256 mismatch after download: {relativePath}");
             }
@@ -281,9 +364,11 @@ public class InstanceService
 
             File.Move(tempPath, savePath);
         }
-        catch (Exception e)
+        catch
         {
-            Logger.Error($"Failed to download {url}: {e}");
+            try { if (File.Exists(tempPath)) File.Delete(tempPath); }
+            catch { /* ignore */ }
+            throw;
         }
 
         return relativePath;
